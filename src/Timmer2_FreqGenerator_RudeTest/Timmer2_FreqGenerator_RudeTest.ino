@@ -43,7 +43,7 @@ void setup() {
     }
   }
 
-  TCCR2A = prescalarbits;
+  TCCR2B = prescalarbits;
   OCR2A = ocr;
   
   //<--
@@ -62,8 +62,9 @@ void setup() {
   Serial.println( ocr );
   Serial.println( prescalarbits , BIN );
   */
+  Serial.println( TCCR2B , BIN );
 }
 
 void loop() {
-  digitalRead( 8 ) ? Serial.println( 1 ) : Serial.println( 0 );
+  //digitalRead( 8 ) ? Serial.println( 1 ) : Serial.println( 0 );
 }
