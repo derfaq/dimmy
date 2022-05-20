@@ -1,22 +1,45 @@
-/*
- * Configuración del Timmer 2 para tener señal de cruce por cero para experimentación y desarrollo sin que estar
- * conectado a la red de 220.
- * 
- * Posibilidad de usar Tone como referencia para tener una flexibilidad en la frecuencia generada, 60 Hz ideal
- * para usar cámara como osciloscopio.
- * 
- * A diferencia de Tone, NO usar interrupciones, solo PWM automático. Salidas fijas.
- * 
- * Documentanción: 
- *  - https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf
- *  
- *  
- */
+unsigned int freq = 120;
 
-unsigned int freq = 100;
+#include "Dimmy.h"
+
+#define crossZeroPin 8
+#define lightPinL 6
+#define lightPinR 5
+#define lightPinC 11
+
+Dimmy dimmy;
+Channel lightL( lightPinL );
+Channel lightR( lightPinR );
+Channel lightC( lightPinC );
+
+void  setupTimerTwo();
 
 void setup() {
+  setupTimerTwo();
+  
+  // again like in RSD, a combination of the static class with dinamics objets
+  int dimmL = 20;
+  int dimmR = 20;
+  int dimmC = 21;
 
+  lightL.set( dimmL );
+  lightR.set( dimmR );
+  lightC.set( dimmC );
+  
+  dimmy.attachChannel( &lightL );
+  dimmy.attachChannel( &lightR );
+  dimmy.attachChannel( &lightC );
+  
+  dimmy.begin( crossZeroPin ); 
+  
+  Serial.begin( 9600 );
+}
+
+void loop() {
+  
+}
+
+void  setupTimerTwo(){
   //--> Automatic timer preescaler selector ( 8 bit , 10 bit preescaler )
     
   uint32_t ocr = F_CPU / freq ;
@@ -62,10 +85,5 @@ void setup() {
   // OC2A : D11, PB3, MOSI
   // OC2B : D3, PD3, INT1
   pinMode( 3 , OUTPUT );
-   
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
+  
 }

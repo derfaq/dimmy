@@ -13,7 +13,7 @@
  *  
  */
 
-int freq = 100;
+int freq = 120;
 
 void setup() {
 
