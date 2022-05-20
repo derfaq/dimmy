@@ -3,9 +3,10 @@ unsigned int freq = 120;
 #include "Dimmy.h"
 
 #define crossZeroPin 8
-#define lightPinL 6
-#define lightPinR 5
-#define lightPinC 11
+
+#define lightPinL 6   //Green
+#define lightPinR 5   //Blue
+#define lightPinC 11  //Red
 
 Dimmy dimmy;
 Channel lightL( lightPinL );
@@ -20,7 +21,7 @@ void setup() {
   // again like in RSD, a combination of the static class with dinamics objets
   int dimmL = 20;
   int dimmR = 20;
-  int dimmC = 21;
+  int dimmC = 25;
 
   lightL.set( dimmL );
   lightR.set( dimmR );
@@ -36,7 +37,14 @@ void setup() {
 }
 
 void loop() {
-  
+  static unsigned int i;
+  int valueR =  127 - 126*sin( i / (TWO_PI*10) );
+  int valueL =  127 - 126*sin( i / (TWO_PI*10) + 10 );
+  lightR.set( valueR );
+  lightL.set( valueL );
+  i++;
+  Serial.println( valueL );
+  delay( 40 );
 }
 
 void  setupTimerTwo(){
